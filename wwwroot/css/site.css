@@ -1,0 +1,35 @@
+﻿:root { --feria-azul: #153d64; }
+html { min-height: 100%; }
+body { background: #f5f7fa; color: #24364a; min-height: 100vh; display: flex; flex-direction: column; }
+body > .container-xl { flex: 1; }
+.navbar { background: var(--feria-azul); }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 700; margin-bottom: 1rem; }
+a { color: #205986; }
+.btn-primary { background-color: var(--feria-azul); border-color: var(--feria-azul); }
+.btn-outline-primary { color: var(--feria-azul); border-color: var(--feria-azul); }
+.btn-outline-primary:hover { background-color: var(--feria-azul); border-color: var(--feria-azul); }
+.card { border: 1px solid #e0e6ed; box-shadow: 0 3px 12px #153d6408; border-radius: .75rem; overflow: hidden; }
+.table { background: white; vertical-align: middle; }
+.table th { color: #153d64; }
+.form-control:focus, .form-select:focus { border-color: #377d9d; box-shadow: 0 0 0 .2rem #377d9d22; }
+.input-validation-error { border-color: #c43541; }
+.field-validation-error { color: #b12635; }
+.proyecto-foto { height: 220px; object-fit: cover; }
+.foto-vacia { height: 220px; background: #e4ebf2; display: grid; place-items: center; color: #526b82; }
+.descripcion { white-space: pre-line; overflow-wrap: anywhere; }
+.podio { border-top: 5px solid; }
+.podio-1 { border-top-color: #c6a140; }
+.podio-2 { border-top-color: #a8afb9; }
+.podio-3 { border-top-color: #ae784d; }
+.grafico { height: 280px; }
+@media print {
+    .no-print, header, footer, .btn { display: none !important; }
+    body { display: block; background: white; font-size: 10pt; color: black; }
+    .container-xl { max-width: none; padding: 0; }
+    .table-responsive { overflow: visible; }
+    table { width: 100%; }
+    thead { display: table-header-group; }
+    tr, .card { break-inside: avoid; }
+    a { color: black; text-decoration: none; }
+    @page { size: landscape; margin: 12mm; }
+}

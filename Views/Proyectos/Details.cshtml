@@ -1,0 +1,9 @@
+@model Proyecto
+@{ViewData["Title"] = Model.Titulo;}
+<div class="row g-4"><div class="col-md-5">@if(Model.FotoUrl != null){<img src="@Model.FotoUrl" class="img-fluid rounded" alt="Fotografía de @Model.Titulo" />}else{<div class="foto-vacia rounded">Proyecto universitario</div>}</div><div class="col-md-7">
+<span class="badge bg-secondary">@Model.Estado</span><h1 class="mt-2">@Model.Titulo</h1><p>@Model.Feria.Nombre · @Model.Grupo.Nombre</p><p class="descripcion">@Model.Descripcion</p>
+<a href="@Model.PdfUrl" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">Abrir documento PDF</a><h2 class="h5 mt-4">Integrantes</h2><ul>@foreach(var g in Model.Grupo.GrupoEstudiantes){<li>@g.Estudiante.Nombre — @g.Estudiante.Carrera</li>}</ul>
+@if(ViewBag.PuedeEditar){<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a><form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline" data-confirm="¿Eliminar este proyecto?"><button class="btn btn-outline-danger">Eliminar</button></form>}
+@if(User.IsInRole(Roles.Administrador)){<a asp-controller="Tribunales" asp-action="Index" asp-route-proyectoId="@Model.Id" class="btn btn-outline-primary">Tribunales</a>}
+@if(User.IsInRole(Roles.Profesor)){<a asp-controller="Evaluaciones" asp-action="Index" class="btn btn-primary">Mis evaluaciones</a>}
+</div></div><a asp-action="Index" class="d-block mt-4">Volver a proyectos</a>

@@ -1,0 +1,8 @@
+@model Usuario
+@{ ViewData["Title"] = "Detalle de cuenta"; var asignaciones = (List<Tribunal>)ViewBag.Asignaciones; }
+<h1>@(Model.Estudiante?.Nombre ?? Model.Profesor?.Nombre ?? "Administrador")</h1>
+<dl><dt>Correo</dt><dd>@Model.Correo</dd><dt>Rol</dt><dd>@Model.Rol</dd><dt>Estado</dt><dd>@(Model.Activo ? "Activo" : "Inactivo")</dd>
+@if(Model.Estudiante != null) { <dt>Código</dt><dd>@Model.Estudiante.Codigo</dd><dt>Carrera</dt><dd>@Model.Estudiante.Carrera</dd> }
+@if(Model.Profesor != null) { <dt>Especialidad</dt><dd>@Model.Profesor.Especialidad</dd> }</dl>
+@if(Model.Profesor != null) { <h2 class="h4">Proyectos asignados</h2><ul>@foreach(var t in asignaciones) { <li><a asp-controller="Proyectos" asp-action="Details" asp-route-id="@t.ProyectoId">@t.Proyecto.Titulo</a> — @(t.Evaluacion == null ? "Pendiente" : "Evaluado")</li> }</ul> }
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a> <a asp-action="Index">Volver</a>

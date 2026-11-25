@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · FeriaPro</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header class="no-print">
+<nav class="navbar navbar-expand-xl navbar-dark mb-4"><div class="container-fluid px-lg-4">
+<a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">FeriaPro</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navegacion" aria-controls="navegacion" aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="navegacion"><ul class="navbar-nav me-auto">
+@if(User.Identity?.IsAuthenticated == true){
+<li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Panel</a></li>
+<li class="nav-item"><a class="nav-link" asp-controller="Ferias" asp-action="Index">Ferias</a></li>
+@if(User.IsInRole(Roles.Administrador)){
+<li class="nav-item"><a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+<li class="nav-item"><a class="nav-link" asp-controller="Estudiantes" asp-action="Index">Estudiantes</a></li>
+<li class="nav-item"><a class="nav-link" asp-controller="Profesores" asp-action="Index">Profesores</a></li>
+}
+@if(!User.IsInRole(Roles.Profesor)){<li class="nav-item"><a class="nav-link" asp-controller="Grupos" asp-action="Index">Grupos</a></li>}
+<li class="nav-item"><a class="nav-link" asp-controller="Proyectos" asp-action="Index">Proyectos</a></li>
+@if(User.IsInRole(Roles.Administrador)){<li class="nav-item"><a class="nav-link" asp-controller="Tribunales" asp-action="Index">Tribunales</a></li>}
+@if(!User.IsInRole(Roles.Estudiante)){<li class="nav-item"><a class="nav-link" asp-controller="Evaluaciones" asp-action="Index">Evaluaciones</a></li>}
+@if(User.IsInRole(Roles.Administrador)){<li class="nav-item"><a class="nav-link" asp-controller="Reportes" asp-action="Index">Reportes</a></li>}
+}
+<li class="nav-item"><a class="nav-link" asp-controller="Ranking" asp-action="Index">Resultados</a></li>
+</ul>
+@if(User.Identity?.IsAuthenticated == true){<form asp-controller="Account" asp-action="Logout" method="post"><button class="btn btn-sm btn-outline-light">Cerrar sesión</button></form>}else{<a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Login">Iniciar sesión</a>}
+</div></div></nav>
+</header>
+<div class="container-xl"><main class="pb-5">
+@if(TempData["Exito"] is string exito){<div class="alert alert-success" role="status">@exito</div>}
+@if(TempData["Error"] is string error){<div class="alert alert-danger" role="alert">@error</div>}
+@RenderBody()
+</main></div>
+<footer class="border-top py-3 text-muted no-print"><div class="container-xl">FeriaPro · Ferias universitarias de proyectos</div></footer>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body></html>

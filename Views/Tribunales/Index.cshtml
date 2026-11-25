@@ -1,0 +1,8 @@
+@model List<Tribunal>
+@{ViewData["Title"] = "Tribunales";}
+<h1>Tribunales evaluadores</h1><p>Cada proyecto requiere tres profesores. Las evaluaciones registradas se conservan.</p>
+<form method="get" class="d-flex gap-2 mb-3"><select name="proyectoId" asp-items="ViewBag.Proyectos" class="form-select" aria-label="Proyecto"><option value="">Todos los proyectos</option></select><button class="btn btn-outline-primary">Filtrar</button></form>
+<form asp-action="Asignar" method="post" class="card p-3 mb-4"><div class="row g-2"><div class="col-md-5"><label for="ProyectoId" class="form-label">Proyecto</label><select id="ProyectoId" name="ProyectoId" asp-items="ViewBag.Proyectos" class="form-select" required><option value="">Seleccionar</option></select></div><div class="col-md-5"><label for="ProfesorId" class="form-label">Profesor activo</label><select id="ProfesorId" name="ProfesorId" asp-items="ViewBag.Profesores" class="form-select" required><option value="">Seleccionar</option></select></div><div class="col-md-2 align-self-end"><button class="btn btn-primary">Asignar</button></div></div></form>
+<div class="table-responsive"><table class="table"><thead><tr><th>Proyecto</th><th>Feria</th><th>Profesor</th><th>Evaluación</th><th></th></tr></thead><tbody>
+@foreach(var t in Model){<tr><td>@t.Proyecto.Titulo</td><td>@t.Proyecto.Feria.Nombre</td><td>@t.Profesor.Nombre</td><td>@(t.Evaluacion == null ? "Pendiente" : "Registrada")</td><td>@if(t.Evaluacion == null && t.Proyecto.Feria.Estado != EstadosFeria.Finalizada){<form asp-action="Quitar" asp-route-id="@t.Id" method="post" data-confirm="¿Retirar esta asignación sin evaluación?"><button class="btn btn-sm btn-outline-danger">Quitar</button></form>}</td></tr>}
+</tbody></table></div>

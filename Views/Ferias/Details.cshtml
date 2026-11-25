@@ -1,0 +1,6 @@
+@model Feria
+@{ViewData["Title"] = Model.Nombre;}
+<h1>@Model.Nombre</h1><p>@Model.FechaInicio.ToString("dd/MM/yyyy") — @Model.FechaFin.ToString("dd/MM/yyyy") · @Model.Estado</p>
+@if(User.IsInRole(Roles.Administrador)){<h2 class="h4">Proyectos registrados</h2><ul>@foreach(var p in Model.Proyectos){<li><a asp-controller="Proyectos" asp-action="Details" asp-route-id="@p.Id">@p.Titulo</a> · @p.Grupo.Nombre · @p.Estado</li>}</ul>}
+@if(Model.Estado == EstadosFeria.Abierta && User.IsInRole(Roles.Estudiante)){<a asp-controller="Proyectos" asp-action="Create" class="btn btn-primary">Registrar proyecto</a>}
+<a asp-action="Index">Volver a ferias</a>

@@ -1,0 +1,14 @@
+@model FeriaPro.ViewModels.UsuarioViewModel
+@{ ViewData["Title"] = Model.Id == 0 ? "Registrar cuenta" : "Editar cuenta"; }
+<h1>@ViewData["Title"]</h1>
+<form method="post" class="card p-4"><div asp-validation-summary="All" class="text-danger"></div><input asp-for="Id" type="hidden" />
+<div class="row g-3"><div class="col-md-6"><label asp-for="Correo" class="form-label"></label><input asp-for="Correo" class="form-control" /></div>
+<div class="col-md-6"><label asp-for="Password" class="form-label">Contraseña @(Model.Id > 0 ? "(opcional)" : "")</label><input asp-for="Password" class="form-control" autocomplete="new-password" /><small>Mínimo 10 caracteres.</small></div>
+<div class="col-md-6"><label asp-for="Rol" class="form-label"></label>
+@if (ViewBag.TipoPerfil != null) { <input asp-for="Rol" class="form-control" readonly /> } else { <select asp-for="Rol" class="form-select">@foreach(var rol in Roles.Todos) { <option value="@rol">@rol</option> }</select> }</div>
+<div class="col-md-6"><label asp-for="Nombre" class="form-label">Nombre completo</label><input asp-for="Nombre" class="form-control" /></div>
+<div class="col-md-4"><label asp-for="Codigo" class="form-label">Código (estudiante)</label><input asp-for="Codigo" class="form-control" /></div>
+<div class="col-md-4"><label asp-for="Carrera" class="form-label">Carrera (estudiante)</label><input asp-for="Carrera" class="form-control" /></div>
+<div class="col-md-4"><label asp-for="Especialidad" class="form-label">Especialidad (profesor)</label><input asp-for="Especialidad" class="form-control" /></div></div>
+<div class="form-check my-3"><input asp-for="Activo" class="form-check-input" /><label asp-for="Activo">Cuenta activa</label></div>
+<div><button class="btn btn-primary">Guardar</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a></div></form>

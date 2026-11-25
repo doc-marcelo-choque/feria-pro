@@ -1,0 +1,4 @@
+@model FeriaPro.ViewModels.GrupoViewModel
+@{ViewData["Title"] = Model.Id == 0 ? "Crear grupo" : "Editar grupo";}
+<h1>@ViewData["Title"]</h1><form method="post" class="card p-4"><input asp-for="Id" type="hidden" /><div asp-validation-summary="All" class="text-danger"></div>
+<label asp-for="Nombre" class="form-label">Nombre del grupo</label><input asp-for="Nombre" class="form-control mb-3" /><div><button class="btn btn-primary">Guardar</button> <a asp-action="Index">Cancelar</a></div></form>

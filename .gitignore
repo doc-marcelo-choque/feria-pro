@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+**/bin/
+**/obj/
+wwwroot/uploads/proyectos/*
+!wwwroot/uploads/proyectos/.gitkeep
+*.user
+*.suo
+.env
+artifacts/

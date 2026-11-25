@@ -1,0 +1,9 @@
+@model FeriaPro.ViewModels.FeriaViewModel
+@{ViewData["Title"] = Model.Id == 0 ? "Crear feria" : "Editar feria";}
+<h1>@ViewData["Title"]</h1><form method="post" class="card p-4"><input asp-for="Id" type="hidden" /><div asp-validation-summary="All" class="text-danger"></div>
+<label asp-for="Nombre" class="form-label"></label><input asp-for="Nombre" class="form-control mb-3" />
+<label asp-for="FechaInicio" class="form-label">Fecha de inicio</label><input asp-for="FechaInicio" class="form-control mb-3" />
+<label asp-for="FechaFin" class="form-label">Fecha final</label><input asp-for="FechaFin" class="form-control mb-3" />
+<label asp-for="Estado" class="form-label"></label><select asp-for="Estado" class="form-select mb-3">@foreach(var e in EstadosFeria.Todos){<option value="@e">@e</option>}</select>
+<p class="text-muted">Iniciar requiere tres profesores activos por proyecto. Finalizar requiere todas las evaluaciones. Las ferias finalizadas quedan bloqueadas.</p>
+<div><button class="btn btn-primary">Guardar</button> <a asp-action="Index">Cancelar</a></div></form>

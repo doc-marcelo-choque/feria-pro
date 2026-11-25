@@ -1,0 +1,13 @@
+@model FeriaPro.ViewModels.DashboardViewModel
+@{ViewData["Title"] = "Panel principal";}
+<p class="text-uppercase text-muted mb-1">FeriaPro · @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+<h1>Panel principal</h1><p class="text-muted mb-4">Organiza, presenta y evalúa los proyectos de la universidad.</p>
+<div class="row g-3 mb-4">@foreach(var e in Model.Estadisticas){<div class="col-sm-6 col-lg-4"><div class="card p-4 h-100"><p class="text-muted mb-1">@e.Key</p><strong class="display-6">@e.Value</strong></div></div>}</div>
+@if(User.IsInRole(Roles.Administrador)){
+<div class="d-flex gap-2 flex-wrap mb-4"><a asp-controller="Ferias" asp-action="Create" class="btn btn-primary">Crear feria</a><a asp-controller="Usuarios" asp-action="Create" class="btn btn-outline-primary">Registrar cuenta</a><a asp-controller="Tribunales" asp-action="Index" class="btn btn-outline-primary">Asignar evaluadores</a></div>
+<div class="row g-4"><div class="col-lg-6"><div class="card p-4"><h2 class="h5">Proyectos por feria</h2><div class="grafico"><canvas id="por-feria"></canvas></div></div></div><div class="col-lg-6"><div class="card p-4"><h2 class="h5">Proyectos por estado</h2><div class="grafico"><canvas id="por-estado"></canvas></div></div></div><div class="col-lg-6"><div class="card p-4"><h2 class="h5">Evaluados y pendientes</h2><div class="grafico"><canvas id="evaluados"></canvas></div></div></div></div>
+<script type="application/json" id="dashboard-datos">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(new { Model.Ferias, Model.ProyectosPorFeria, Model.Estados, Model.ProyectosPorEstado, Model.Evaluados, Model.Pendientes }))</script>
+}else if(User.IsInRole(Roles.Profesor)){<a asp-controller="Evaluaciones" asp-action="Index" class="btn btn-primary">Consultar mis proyectos y evaluaciones</a>}else{
+<div class="d-flex gap-2 mb-4"><a asp-controller="Grupos" asp-action="Index" class="btn btn-primary">Mis grupos</a><a asp-controller="Proyectos" asp-action="Index" class="btn btn-outline-primary">Mis proyectos</a></div>
+<h2 class="h4">Ferias abiertas</h2><ul class="list-group">@foreach(var f in Model.FeriasDisponibles){<li class="list-group-item"><a asp-controller="Ferias" asp-action="Details" asp-route-id="@f.Id">@f.Nombre</a> · @f.FechaInicio.ToString("dd/MM/yyyy") — @f.FechaFin.ToString("dd/MM/yyyy")</li>}</ul>}
+@section Scripts { @if(User.IsInRole(Roles.Administrador)){<script src="~/lib/chartjs/chart.umd.min.js"></script><script src="~/js/dashboard.js" asp-append-version="true"></script>} }

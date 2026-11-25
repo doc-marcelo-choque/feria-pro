@@ -1,0 +1,8 @@
+@model List<Proyecto>
+@{ViewData["Title"] = "Proyectos";}
+<div class="d-flex justify-content-between mb-3"><h1>Proyectos</h1>@if(!User.IsInRole(Roles.Profesor)){<a asp-action="Create" class="btn btn-primary align-self-center">Registrar proyecto</a>}</div>
+<form method="get" class="row g-2 mb-4"><div class="col-md-5"><input name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Buscar por título" /></div><div class="col-md-5"><select name="feriaId" asp-items="ViewBag.Ferias" class="form-select" aria-label="Feria"><option value="">Todas las ferias</option></select></div><div class="col-md-2"><button class="btn btn-outline-primary w-100">Filtrar</button></div></form>
+<div class="row g-4">@foreach(var p in Model){<div class="col-md-6 col-lg-4"><article class="card h-100">
+@if(p.FotoUrl != null){<img src="@p.FotoUrl" class="card-img-top proyecto-foto" alt="Fotografía de @p.Titulo" />}else{<div class="foto-vacia">Proyecto universitario</div>}
+<div class="card-body"><span class="badge bg-secondary">@p.Estado</span><h2 class="h5 mt-2">@p.Titulo</h2><p class="text-muted">@p.Grupo.Nombre · @p.Feria.Nombre</p><p>@(p.Descripcion.Length > 150 ? p.Descripcion[..150] + "…" : p.Descripcion)</p><a asp-action="Details" asp-route-id="@p.Id" class="btn btn-outline-primary">Ver detalles</a></div></article></div>}</div>
+@if(Model.Count == 0){<p>No hay proyectos disponibles para tu cuenta y estos filtros.</p>}

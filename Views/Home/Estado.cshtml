@@ -1,0 +1,4 @@
+@model int
+@{ViewData["Title"] = "Solicitud no completada";}
+<h1>@Model</h1><p>@(Model == 404 ? "La página o el registro solicitado no existe o no está disponible para tu cuenta." : Model == 429 ? "Se alcanzó el límite de intentos. Espera un minuto antes de volver a intentarlo." : "No fue posible completar la solicitud. Revisa los datos e inténtalo nuevamente.")</p>
+<a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>

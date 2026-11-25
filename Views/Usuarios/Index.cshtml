@@ -1,0 +1,10 @@
+@model List<Usuario>
+@{ ViewData["Title"] = ViewBag.Modulo; }
+<div class="d-flex justify-content-between mb-3"><h1>@ViewBag.Modulo</h1><a asp-action="Create" class="btn btn-primary align-self-center">Registrar</a></div>
+<form method="get" class="d-flex gap-2 mb-3"><input name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Buscar por nombre, código o correo" /><button class="btn btn-outline-primary">Buscar</button></form>
+<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Código / especialidad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+@foreach (var u in Model) { <tr><td>@(u.Estudiante?.Nombre ?? u.Profesor?.Nombre ?? "Administrador")</td><td>@u.Correo</td><td>@u.Rol</td><td>@(u.Estudiante?.Codigo ?? u.Profesor?.Especialidad)</td><td>@(u.Activo ? "Activo" : "Inactivo")</td><td><a asp-action="Details" asp-route-id="@u.Id">Detalle</a> · <a asp-action="Edit" asp-route-id="@u.Id">Editar</a>
+@if (u.Activo) { <form asp-action="Desactivar" asp-route-id="@u.Id" method="post" class="d-inline" data-confirm="¿Desactivar esta cuenta?"><button class="btn btn-sm btn-outline-danger">Desactivar</button></form> }
+<form asp-action="Delete" asp-route-id="@u.Id" method="post" class="d-inline" data-confirm="¿Eliminar la cuenta? Solo se permite si no tiene historial."><button class="btn btn-sm btn-outline-danger">Eliminar</button></form></td></tr> }
+</tbody></table></div>
+@if (Model.Count == 0) { <p>No hay registros para esta búsqueda.</p> }

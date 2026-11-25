@@ -1,0 +1,6 @@
+﻿@model ErrorViewModel
+@{ ViewData["Title"] = "Error"; }
+<h1>No pudimos completar la operación</h1>
+<p>Inténtalo nuevamente. Si el problema continúa, comunica el identificador de solicitud al administrador.</p>
+@if(Model.ShowRequestId){<p>Identificador: <code>@Model.RequestId</code></p>}
+<a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>

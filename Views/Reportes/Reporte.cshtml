@@ -1,0 +1,6 @@
+@model FeriaPro.ViewModels.ReporteViewModel
+@{ViewData["Title"] = Model.Titulo;}
+<h1>FeriaPro · @Model.Titulo</h1>
+<form method="get" class="d-flex gap-2 my-3 no-print"><select name="feriaId" class="form-select" aria-label="Feria"><option value="">Todas las ferias</option>@foreach(var f in Model.Ferias){<option value="@f.Id" selected="@(Model.FeriaId == f.Id)">@f.Nombre</option>}</select><button class="btn btn-primary">Filtrar</button><button type="button" class="btn btn-outline-primary" data-print>Imprimir</button><button name="csv" value="true" class="btn btn-outline-primary">CSV</button></form>
+<div class="table-responsive"><table class="table table-striped"><thead><tr>@foreach(var c in Model.Columnas){<th>@c</th>}</tr></thead><tbody>@foreach(var fila in Model.Filas){<tr>@foreach(var celda in fila){<td>@celda</td>}</tr>}</tbody></table></div>
+@if(Model.Filas.Count == 0){<p>No hay datos para el filtro seleccionado.</p>}<a asp-action="Index" class="no-print">Volver a reportes</a>

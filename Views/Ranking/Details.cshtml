@@ -1,0 +1,14 @@
+@model FeriaPro.ViewModels.RankingViewModel
+@{ViewData["Title"] = "Resultados — " + Model.Feria.Nombre;}
+<h1>@Model.Feria.Nombre</h1><p>@Model.Feria.FechaInicio.ToString("dd/MM/yyyy") — @Model.Feria.FechaFin.ToString("dd/MM/yyyy") · @Model.Participantes proyectos participantes</p>
+@if(!Model.Feria.ResultadosPublicados){<div class="alert alert-info">Vista previa exclusiva para administración. Los resultados aún no son públicos.</div>}
+@if(Model.EmpatesPendientes){<div class="alert alert-warning">Existe un empate después de aplicar todos los criterios. Registra una resolución antes de publicar.</div>}
+<div class="row g-4 my-3">@foreach(var r in Model.Resultados.Where(x => x.Posicion <= 3 && !x.Empatado)){<div class="col-md-4"><article class="card h-100 podio podio-@r.Posicion">
+@if(r.FotoUrl != null){<img src="@r.FotoUrl" alt="Fotografía de @r.Titulo" class="card-img-top proyecto-foto" />}<div class="card-body"><p class="fw-bold">@(r.Posicion == 1 ? "Primer lugar" : r.Posicion == 2 ? "Segundo lugar" : "Tercer lugar")</p><h2 class="h4">@r.Titulo</h2><p>@r.Grupo</p><strong class="fs-3">@r.NotaFinal.ToString("N2")</strong></div></article></div>}</div>
+<div class="table-responsive"><table class="table"><thead><tr><th>Posición</th><th>Proyecto</th><th>Grupo</th><th>Nota final</th><th>Evaluaciones</th>@if(User.IsInRole(Roles.Administrador)){<th>ID</th>}</tr></thead><tbody>
+@foreach(var r in Model.Resultados){<tr><td>@r.Posicion @(r.Empatado ? "(empate)" : "")</td><td>@r.Titulo</td><td>@r.Grupo</td><td>@r.NotaFinal.ToString("N2")</td><td>@r.Evaluaciones</td>@if(User.IsInRole(Roles.Administrador)){<td>@r.ProyectoId</td>}</tr>}
+</tbody></table></div>
+@if(!string.IsNullOrWhiteSpace(Model.Feria.ResolucionEmpate)){<p><strong>Resolución del empate:</strong> @Model.Feria.ResolucionEmpate</p>}
+@if(User.IsInRole(Roles.Administrador) && !Model.Feria.ResultadosPublicados){<form asp-action="Publicar" asp-route-id="@Model.Feria.Id" method="post" class="card p-4" data-confirm="¿Publicar los resultados oficiales? Quedarán bloqueados.">
+@if(Model.EmpatesPendientes){<label for="OrdenDesempate" class="form-label">IDs de todos los proyectos en orden preferido para los empates (separados por comas)</label><input id="OrdenDesempate" name="OrdenDesempate" class="form-control mb-3" required /><p>Solo se utiliza este orden entre proyectos que siguen empatados tras todos los criterios.</p><label for="ResolucionEmpate" class="form-label">Resolución y fundamento del desempate</label><textarea id="ResolucionEmpate" name="ResolucionEmpate" class="form-control mb-3" minlength="20" maxlength="2000" required></textarea>}
+<button class="btn btn-primary">Publicar resultados oficiales</button></form>}

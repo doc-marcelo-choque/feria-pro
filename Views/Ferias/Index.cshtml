@@ -1,0 +1,8 @@
+@model List<Feria>
+@{ ViewData["Title"] = "Ferias"; }
+<div class="d-flex justify-content-between"><h1>Ferias académicas</h1>@if(User.IsInRole(Roles.Administrador)){<a asp-action="Create" class="btn btn-primary align-self-center">Crear feria</a>}</div>
+<div class="table-responsive"><table class="table"><thead><tr><th>Feria</th><th>Inicio</th><th>Fin</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+@foreach(var f in Model){<tr><td>@f.Nombre</td><td>@f.FechaInicio.ToString("dd/MM/yyyy")</td><td>@f.FechaFin.ToString("dd/MM/yyyy")</td><td>@f.Estado</td><td><a asp-action="Details" asp-route-id="@f.Id">Detalle</a>
+@if(User.IsInRole(Roles.Administrador)){<span> · </span><a asp-action="Edit" asp-route-id="@f.Id">Editar</a><form asp-action="Delete" asp-route-id="@f.Id" method="post" class="d-inline" data-confirm="¿Eliminar esta feria sin proyectos?"><button class="btn btn-sm btn-outline-danger">Eliminar</button></form>}
+@if(f.ResultadosPublicados){<a asp-controller="Ranking" asp-action="Details" asp-route-id="@f.Id">Resultados</a>}</td></tr>}
+</tbody></table></div>

@@ -1,0 +1,8 @@
+@model List<Tribunal>
+@{ViewData["Title"] = "Evaluaciones";}
+<h1>@(User.IsInRole(Roles.Profesor) ? "Mis proyectos asignados" : "Evaluaciones")</h1>
+<div class="table-responsive"><table class="table"><thead><tr><th>Proyecto</th><th>Feria</th><th>Profesor</th><th>Estado</th><th>Innovación</th><th>Desarrollo técnico</th><th>Presentación</th><th>Nota</th><th></th></tr></thead><tbody>
+@foreach(var t in Model){<tr><td><a asp-controller="Proyectos" asp-action="Details" asp-route-id="@t.ProyectoId">@t.Proyecto.Titulo</a></td><td>@t.Proyecto.Feria.Nombre</td><td>@t.Profesor.Nombre</td><td>@(t.Evaluacion == null ? "Pendiente" : "Evaluada")</td><td>@t.Evaluacion?.Innovacion.ToString("N2")</td><td>@t.Evaluacion?.DesarrolloTecnico.ToString("N2")</td><td>@t.Evaluacion?.Presentacion.ToString("N2")</td><td>@t.Evaluacion?.Nota.ToString("N2")</td><td>
+@if(User.IsInRole(Roles.Profesor) && t.Proyecto.Feria.Estado == EstadosFeria.EnEvaluacion){<a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-primary">@(t.Evaluacion == null ? "Evaluar" : "Modificar")</a>}</td></tr>
+@if(!string.IsNullOrEmpty(t.Evaluacion?.Observaciones)){<tr><td colspan="9"><strong>Observaciones:</strong> @t.Evaluacion.Observaciones</td></tr>}}
+</tbody></table></div>

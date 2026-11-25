@@ -1,0 +1,10 @@
+@model Grupo
+@{ViewData["Title"] = Model.Nombre; bool puede = ViewBag.PuedeAdministrar;}
+<h1>@Model.Nombre</h1><p>Responsable: @Model.ResponsableEstudiante.Nombre</p>
+@if(puede){<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mb-3">Editar nombre</a>}
+<h2 class="h4">Integrantes</h2><table class="table"><thead><tr><th>Código</th><th>Nombre</th><th>Carrera</th><th></th></tr></thead><tbody>
+@foreach(var i in Model.GrupoEstudiantes){<tr><td>@i.Estudiante.Codigo</td><td>@i.Estudiante.Nombre</td><td>@i.Estudiante.Carrera</td><td>
+@if(puede && i.EstudianteId != Model.ResponsableEstudianteId){<form asp-action="Retirar" asp-route-id="@Model.Id" method="post" data-confirm="¿Retirar al integrante?"><input type="hidden" name="EstudianteId" value="@i.EstudianteId" /><button class="btn btn-sm btn-outline-danger">Retirar</button></form>}</td></tr>}
+</tbody></table>
+@if(puede){<form asp-action="Agregar" asp-route-id="@Model.Id" method="post" class="d-flex gap-2"><select name="EstudianteId" class="form-select" aria-label="Estudiante">@foreach(var e in (List<Estudiante>)ViewBag.Estudiantes){<option value="@e.Id">@e.Codigo — @e.Nombre</option>}</select><button class="btn btn-primary">Agregar integrante</button></form>}
+<h2 class="h4 mt-4">Proyectos</h2><ul>@foreach(var p in Model.Proyectos){<li><a asp-controller="Proyectos" asp-action="Details" asp-route-id="@p.Id">@p.Titulo</a> · @p.Feria.Nombre · @p.Estado</li>}</ul><a asp-action="Index">Volver</a>

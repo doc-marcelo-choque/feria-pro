@@ -1,0 +1,12 @@
+@model FeriaPro.ViewModels.LoginViewModel
+@{ ViewData["Title"] = "Iniciar sesión"; }
+<div class="card mx-auto p-4" style="max-width:460px">
+<h1 class="h3">Bienvenido a FeriaPro</h1><p class="text-muted">Gestión de proyectos y ferias universitarias</p>
+<form asp-action="Login" method="post">
+<div asp-validation-summary="All" class="text-danger"></div>
+<input asp-for="ReturnUrl" type="hidden" />
+<label asp-for="Correo" class="form-label"></label><input asp-for="Correo" class="form-control mb-3" autocomplete="username" />
+<label asp-for="Password" class="form-label">Contraseña</label><input asp-for="Password" class="form-control mb-3" autocomplete="current-password" />
+<div class="form-check mb-3"><input asp-for="Recordarme" class="form-check-input" /><label asp-for="Recordarme">Recordarme</label></div>
+<button class="btn btn-primary w-100">Iniciar sesión</button>
+</form></div>
